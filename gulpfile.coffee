@@ -11,7 +11,8 @@ coffee_glob = './src/**/*.coffee'
 jade_glob = './src/**/*.jade'
 html_glob = './build/**/*.html'
 sass_glob = './src/**/*.scss'
-build_glob = './build/**'
+build_glob = './build/**/*'
+src_glob = './src/**/*'
 
 
 # Paths
@@ -21,13 +22,12 @@ build_dir = './build/'
 
 gulp.task 'connect', ->
 	connect.server
-		root : ['src', 'build']
+		root : ['build']
 		livereload : true
 
 
 gulp.task 'reload', ->
 	gulp.src [build_glob]
-	.pipe watch()
 	.pipe connect.reload()
 
 
@@ -57,4 +57,4 @@ gulp.task 'watch', ->
 	gulp.watch [build_glob], ['reload']
 
 
-gulp.task 'default', ['connect', 'reload', 'watch']
+gulp.task 'default', ['connect', 'watch']
