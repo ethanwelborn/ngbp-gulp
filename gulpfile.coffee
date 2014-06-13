@@ -26,7 +26,7 @@ gulp.task 'connect', ->
 
 
 gulp.task 'reload', ->
-	gulp.src [coffee_glob, jade_glob, sass_glob]
+	gulp.src [build_glob]
 	.pipe watch()
 	.pipe connect.reload()
 
@@ -34,6 +34,7 @@ gulp.task 'reload', ->
 gulp.task 'jade', ->
 	gulp.src jade_glob
 	.pipe jade()
+	.pipe connect.reload()
 	.pipe gulp.dest(build_dir)
 
 
@@ -53,6 +54,7 @@ gulp.task 'watch', ->
 	gulp.watch [jade_glob], ['jade']
 	gulp.watch [sass_glob], ['sass']
 	gulp.watch [coffee_glob], ['coffee']
+	gulp.watch [build_glob], ['reload']
 
 
 gulp.task 'default', ['connect', 'reload', 'watch']
