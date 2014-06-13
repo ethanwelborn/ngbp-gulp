@@ -3,27 +3,31 @@ connect = require 'gulp-connect'
 jade = require 'gulp-jade'
 sass = require 'gulp-sass'
 coffee = require 'gulp-coffee'
+watch = require 'gulp-watch'
 
 
 # Globs
 coffee_glob = './src/**/*.coffee'
 jade_glob = './src/**/*.jade'
-html_glob = './src/**/*.html'
+html_glob = './build/**/*.html'
 sass_glob = './src/**/*.scss'
+build_glob = './build/**'
 
 
 # Paths
+src_dir = './src/'
 build_dir = './build/'
 
 
 gulp.task 'connect', ->
 	connect.server
-		root : 'src'
+		root : ['src', 'build']
 		livereload : true
 
 
-gulp.task 'html', ->
-	gulp.src html_glob
+gulp.task 'reload', ->
+	gulp.src [coffee_glob, jade_glob, sass_glob]
+	.pipe watch()
 	.pipe connect.reload()
 
 
@@ -45,10 +49,10 @@ gulp.task 'coffee', ->
 	.pipe gulp.dest(build_dir)
 
 
-gulp.task 'watch', ['html', 'sass', 'coffee'], ->
-	gulp.watch [html_glob], ['html']
+gulp.task 'watch', ->
+	gulp.watch [jade_glob], ['jade']
 	gulp.watch [sass_glob], ['sass']
 	gulp.watch [coffee_glob], ['coffee']
 
 
-gulp.task 'default', ['connect', 'watch']
+gulp.task 'default', ['connect', 'reload', 'watch']
