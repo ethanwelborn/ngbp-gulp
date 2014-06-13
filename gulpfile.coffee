@@ -4,20 +4,24 @@ jade = require 'gulp-jade'
 sass = require 'gulp-sass'
 coffee = require 'gulp-coffee'
 watch = require 'gulp-watch'
+inject = require 'gulp-inject'
 
 
 # Globs
-coffee_glob = './src/**/*.coffee'
-jade_glob = './src/**/*.jade'
-html_glob = './build/**/*.html'
-sass_glob = './src/**/*.scss'
-build_glob = './build/**/*'
-src_glob = './src/**/*'
+coffee_glob = 'src/**/*.coffee'
+jade_glob = 'src/**/*.jade'
+html_glob = 'build/**/*.html'
+sass_glob = 'src/**/*.scss'
+src_glob = 'src/**/*'
+build_glob = 'build/**/*'
+js_glob = 'build/**/*.js'
+css_glob = 'build/**/*.css'
 
 
 # Paths
-src_dir = './src/'
-build_dir = './build/'
+index_path = 'build/index.html'
+src_dir = 'src/'
+build_dir = 'build/'
 
 
 gulp.task 'connect', ->
@@ -27,7 +31,7 @@ gulp.task 'connect', ->
 	return
 
 
-gulp.task 'reload', ->
+gulp.task 'reload', ['sass', 'coffee', 'jade'], ->
 	gulp.src [build_glob]
 	.pipe connect.reload()
 
@@ -35,12 +39,13 @@ gulp.task 'reload', ->
 gulp.task 'jade', ->
 	gulp.src jade_glob
 	.pipe jade()
+	.pipe inject(gulp.src([js_glob, css_glob], { read : false }), { ignorePath : 'build', addRootSlash : false })
 	.pipe gulp.dest(build_dir)
 
 
 gulp.task 'sass', ->
 	gulp.src sass_glob
-	.pipe sass()
+	.pipe sass({ errLogToConsole : true})
 	.pipe gulp.dest(build_dir)
 
 
@@ -51,10 +56,8 @@ gulp.task 'coffee', ->
 
 
 gulp.task 'watch', ->
-	gulp.watch [jade_glob], ['jade']
-	gulp.watch [sass_glob], ['sass']
-	gulp.watch [coffee_glob], ['coffee']
-	gulp.watch [build_glob], ['reload']
+	watch { glob : [src_glob] }, ->
+		gulp.start 'reload'
 	return
 
 
