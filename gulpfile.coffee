@@ -16,8 +16,8 @@ src_glob = 'src/**/*'
 build_glob = 'build/**/*'
 js_glob = 'build/**/*.js'
 css_glob = 'build/**/*.css'
-vendor_js_glob = 'vendor/**/*.js'
-vendor_css_glob = 'vendor/**/*.css'
+vendor_js_glob = 'build/vendor/**/*.js'
+vendor_css_glob = 'build/vendor/**/*.css'
 vendor_glob = 'vendor/**/*'
 
 
@@ -34,7 +34,7 @@ gulp.task 'connect', ->
 	return
 
 
-gulp.task 'reload', ['sass', 'coffee', 'jade'], ->
+gulp.task 'reload', ['sass', 'coffee', 'jade', 'vendor'], ->
 	gulp.src [build_glob]
 	.pipe connect.reload()
 
@@ -42,7 +42,7 @@ gulp.task 'reload', ['sass', 'coffee', 'jade'], ->
 gulp.task 'jade', ->
 	gulp.src jade_glob
 	.pipe jade({ pretty : true })
-	.pipe inject(gulp.src([js_glob, vendor_js_glob, css_glob, vendor_css_glob], { read : false }), { ignorePath : 'build', addRootSlash : false })
+	.pipe inject(gulp.src([vendor_js_glob, js_glob, vendor_css_glob, css_glob], { read : false }), { ignorePath : ['build'], addRootSlash : false })
 	.pipe gulp.dest(build_dir)
 
 
@@ -56,6 +56,11 @@ gulp.task 'coffee', ->
 	gulp.src coffee_glob
 	.pipe coffee({ bare : true })
 	.pipe gulp.dest(build_dir)
+
+
+gulp.task 'vendor', ->
+	gulp.src vendor_glob
+	.pipe gulp.dest 'build/vendor'
 
 
 gulp.task 'watch', ->
