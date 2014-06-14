@@ -5,5 +5,8 @@
     "angular": "1.2.16",
     "angular-mocks": "1.2.16 ",
     "angular-ui-router": "0.2.10"
+  },
+  "dependencies": {
+    "foundation5-sass": "~0.0.1"
   }
 }

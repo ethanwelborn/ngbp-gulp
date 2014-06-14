@@ -5,6 +5,10 @@ angular.module 'ngbp-gulp', [
 	'ngbp-gulp.home'
 ]
 
+.config ($stateProvider, $urlRouterProvider) ->
+	$urlRouterProvider.otherwise '/home'
+	return
+
 .controller 'app_controller', app_controller ($scope) ->
 	$scope.things_we_love = [
 		'coffee'

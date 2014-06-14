@@ -18,6 +18,7 @@ js_glob = 'build/**/*.js'
 css_glob = 'build/**/*.css'
 vendor_js_glob = 'vendor/**/*.js'
 vendor_css_glob = 'vendor/**/*.css'
+vendor_glob = 'vendor/**/*'
 
 
 # Paths
@@ -40,7 +41,7 @@ gulp.task 'reload', ['sass', 'coffee', 'jade'], ->
 
 gulp.task 'jade', ->
 	gulp.src jade_glob
-	.pipe jade()
+	.pipe jade({ pretty : true })
 	.pipe inject(gulp.src([js_glob, vendor_js_glob, css_glob, vendor_css_glob], { read : false }), { ignorePath : 'build', addRootSlash : false })
 	.pipe gulp.dest(build_dir)
 
@@ -58,7 +59,7 @@ gulp.task 'coffee', ->
 
 
 gulp.task 'watch', ->
-	watch { glob : [src_glob] }, ->
+	watch { glob : [src_glob, vendor_glob] }, ->
 		gulp.start 'reload'
 	return
 
