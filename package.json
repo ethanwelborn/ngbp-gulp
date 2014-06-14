@@ -17,9 +17,6 @@
     "gulp-jade": "~0.5.0",
     "gulp-livereload": "~2.1.0",
     "gulp-watch": "~0.6.6",
-    "gulp-connect-multi": "~1.0.8",
-    "express": "~4.4.3",
-    "tiny-lr": "0.0.7",
-    "connect-livereload": "~0.4.0"
+    "gulp-changed": "~0.4.0"
   }
 }
