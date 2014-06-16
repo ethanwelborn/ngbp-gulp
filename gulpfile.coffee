@@ -37,12 +37,6 @@ gulp.task 'connect', ->
 	return
 
 
-gulp.task 'reload', ->
-	gulp.src [build_glob]
-	.pipe changed(build_dir)
-	.pipe connect.reload()
-
-
 gulp.task 'jade', ->
 	gulp.src jade_glob
 	.pipe changed(build_dir)
@@ -80,8 +74,6 @@ gulp.task 'watch', ->
 	gulp.watch [sass_glob], ['sass']
 	gulp.watch [coffee_glob], ['coffee']
 	gulp.watch [vendor_glob], ['vendor']
-
-	# gulp.watch [build_glob], ['reload']
 
 
 gulp.task 'default', ['connect', 'watch']
