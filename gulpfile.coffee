@@ -8,7 +8,6 @@ inject = require 'gulp-inject'
 plumber = require 'gulp-plumber'
 changed = require 'gulp-changed'
 clean = require 'gulp-clean'
-grep = require 'gulp-grep-stream'
 
 
 # Globs
@@ -49,7 +48,6 @@ gulp.task 'jade', ->
 
 gulp.task 'sass', ->
 	gulp.src sass_glob
-	.pipe changed(build_dir)
 	.pipe sass({ errLogToConsole : true})
 	.pipe gulp.dest(build_dir)
 	.pipe connect.reload()
@@ -70,37 +68,17 @@ gulp.task 'vendor', ->
 
 
 gulp.task 'watch', ->
+	gulp.watch [jade_glob], ['jade']
+	gulp.watch [sass_glob], ['sass']
+	gulp.watch [coffee_glob], ['coffee']
+	gulp.watch [vendor_glob], ['vendor']
 
-	# Watching jade -> html
-	watch { glob : jade_glob }, (files) ->
-    files.pipe jade({ pretty : true })
-    .pipe inject(gulp.src([vendor_js_glob, js_glob, vendor_css_glob, css_glob], { read : false }), { ignorePath : ['build'], addRootSlash : false })
-    .pipe gulp.dest(build_dir)
-		.pipe connect.reload()
-
-
- 	# Watching sass -> css
-	watch { glob : sass_glob }, (files) ->
-    files.pipe sass({ errLogToConsole : true})
-    .pipe gulp.dest(build_dir)
-    .pipe connect.reload()
+	gulp.watch [sass_glob, coffee_glob], ['jade']
 
 
-  # Watching coffee -> js
-	watch { glob : coffee_glob }, (files) ->
-    files.pipe coffee({ bare : true})
-    .pipe gulp.dest(build_dir)
-    .pipe connect.reload()
+gulp.task 'build', ['vendor', 'sass', 'coffee'], ->
+	gulp.start 'jade'
 
 
-  # Moving vendor files -> build
-	watch { glob : vendor_glob }, (files) ->
-    files.pipe gulp.dest(build_vendor_dir)
-    .pipe connect.reload()
-
-
-  return
-
-
-gulp.task 'default', ['connect', 'watch']
+gulp.task 'default', ['build', 'connect', 'watch']
 
