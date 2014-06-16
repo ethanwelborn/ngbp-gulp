@@ -3,10 +3,7 @@ connect = require 'gulp-connect'
 jade = require 'gulp-jade'
 sass = require 'gulp-sass'
 coffee = require 'gulp-coffee'
-watch = require 'gulp-watch'
 inject = require 'gulp-inject'
-plumber = require 'gulp-plumber'
-changed = require 'gulp-changed'
 clean = require 'gulp-clean'
 
 
@@ -62,8 +59,7 @@ gulp.task 'coffee', ->
 
 gulp.task 'vendor', ->
 	gulp.src vendor_glob
-	.pipe changed(build_dir)
-	.pipe gulp.dest build_vendor_dir
+	.pipe gulp.dest(build_vendor_dir)
 	.pipe connect.reload()
 
 
