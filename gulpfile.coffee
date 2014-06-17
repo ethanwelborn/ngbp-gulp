@@ -86,6 +86,7 @@ gulp.task 'watch', ->
 	gulp.watch [coffee_glob], ['coffee']
 	gulp.watch [vendor_glob], ['vendor']
 	gulp.watch [karma_glob], ['karma']
+	gulp.watch [sass_glob, coffee_glob], ['jade']
 	return
 
 
