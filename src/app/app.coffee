@@ -11,3 +11,4 @@ angular.module 'ngbp-gulp', [
 
 .controller 'app_controller', ($scope) ->
 	return
+	
