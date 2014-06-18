@@ -7,8 +7,12 @@ angular.module 'ngbp-gulp', [
 
 .config ($stateProvider, $urlRouterProvider) ->
 	$urlRouterProvider.otherwise '/home'
+
+	$stateProvider
+	.state 'home',
+		url : '/home'
+		templateUrl : 'home/index.html'
 	return
 
 .controller 'app_controller', ($scope) ->
 	return
-	

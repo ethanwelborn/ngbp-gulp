@@ -17,6 +17,7 @@ src_glob = 'src/**/*'
 build_glob = 'build/**/*'
 html_glob = 'build/**/*.html'
 application_js_glob = 'build/app/**/*.js'
+application_css_glob = 'build/app/**/*.css'
 js_glob = 'build/**/*.js'
 css_glob = 'build/**/*.css'
 vendor_js_glob = 'build/vendor/**/*.js'
@@ -27,6 +28,14 @@ karma_glob = [
 	'vendor/angular-mocks/angular-mocks.js'
 	'vendor/angular-ui-router/release/angular-ui-router.js'
 	application_js_glob
+]
+build_glob = [
+	'vendor/angular/angular.js'
+	'vendor/angular-ui-router/release/angular-ui-router.js'
+	application_js_glob
+	vendor_css_glob
+	css_glob
+	'!**/*_spec.js'
 ]
 
 # Paths
@@ -47,7 +56,7 @@ gulp.task 'jade', ->
 	gulp.src jade_glob
 	.pipe changed(build_dir, { extension : '.html'})
 	.pipe jade({ pretty : true })
-	.pipe inject(gulp.src([vendor_js_glob, js_glob, vendor_css_glob, css_glob], { read : false }), { ignorePath : ['build'], addRootSlash : false })
+	.pipe inject(gulp.src([build_glob], { read : false }), { ignorePath : ['build'], addRootSlash : false })
 	.pipe gulp.dest(build_dir)
 	.pipe connect.reload()
 
