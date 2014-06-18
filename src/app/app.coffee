@@ -10,9 +10,4 @@ angular.module 'ngbp-gulp', [
 	return
 
 .controller 'app_controller', ($scope) ->
-	$scope.things_we_love = [
-		'coffee'
-		'sass'
-		'jade'
-	]
 	return

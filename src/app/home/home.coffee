@@ -5,5 +5,8 @@ angular.module 'ngbp-gulp.home', []
 		'gulp'
 		'angular'
 		'karma'
+		'coffee'
+		'sass'
+		'jade'
 	]
 ]

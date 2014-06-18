@@ -19,7 +19,7 @@ describe 'ngbp-gulp', ->
 
     it 'should contain 3 great things', ->
       expect(scope.great_things).toBeDefined()
-      expect(scope.great_things.length).toEqual(3)
+      expect(scope.great_things.length).toEqual(6)
       return
 
     return
