@@ -6,7 +6,7 @@ globs.sass = 'src/**/*.scss'
 globs.src = 'src/**/*'
 globs.build = 'build/**/*'
 globs.html = 'build/**/*.html'
-globs.app_js = 'build/app/**/*.js'
+globs.app_js = 'build/app/*/*.js'
 globs.app_css = 'build/style/app.css'
 globs.vendor_js = 'build/vendor/**/*.js'
 globs.vendor_css = 'build/vendor/**/*.css'
@@ -21,7 +21,8 @@ globs.app = [
   'vendor/angular/angular.js'
   'vendor/angular-ui-router/release/angular-ui-router.js'
   globs.app_js
-  "!build/app/**/*_spec.js"
+  "!build/app/*/*_spec.js"
+  "build/app/app.js"
   globs.app_css
 ]
 
