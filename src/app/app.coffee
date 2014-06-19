@@ -11,8 +11,13 @@ angular.module 'ngbp-gulp', [
 	$stateProvider
 	.state 'home',
 		url : '/home'
-		templateUrl : 'home/index.html'
+		templateUrl : 'app/home/index.html'
 	return
+
+.run ['$state', ($state) ->
+	$state.transitionTo 'home'
+	return
+]
 
 .controller 'app_controller', ($scope) ->
 	return
