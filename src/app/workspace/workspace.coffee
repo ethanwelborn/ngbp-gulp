@@ -11,5 +11,11 @@ angular.module 'ngbp-gulp.workspace', []
 	]
 ]
 
-.directive, 'd-fullscreen-textarea', ->
-	return
+.directive 'dFullscreenTextarea', ($window) ->
+	return {
+		restrict : 'A'
+		link : (scope, element, attrs) ->
+			console.log $window.innerHeight
+			element.css 'height', "#{$window.innerHeight}px"
+			return
+	}

@@ -27,30 +27,30 @@ gulp.task 'connect', ->
 
 gulp.task 'jade', ->
 	gulp.src globs.jade
-	.pipe changed(build_dir, { extension : '.html'})
 	.pipe jade({ pretty : true })
 	.on('error', gutil.log)
 	.pipe inject(gulp.src(globs.app, { read : false }), { ignorePath : ['build'], addRootSlash : false })
 	.on('error', gutil.log)
 	.pipe gulp.dest(build_dir)
+	.pipe changed(build_dir, { extension : '.html'})
 	.pipe connect.reload()
 
 
 gulp.task 'sass', ->
-	gulp.src globs.sass
-	.pipe changed(build_dir, { extension : '.css'})
+	gulp.src globs.app_sass
 	.pipe sass({ errLogToConsole : true, sourceComments : 'map', sourceMap : 'sass'})
 	.on('error', gutil.log)
 	.pipe gulp.dest(build_dir)
+	.pipe changed(build_dir, { extension : '.css'})
 	.pipe connect.reload()
 
 
 gulp.task 'coffee', ->
 	gulp.src globs.coffee
-	.pipe changed(build_dir, { extension : '.js'})
 	.pipe coffee({ bare : true })
 	.on('error', gutil.log)
 	.pipe gulp.dest(build_dir)
+	.pipe changed(build_dir, { extension : '.js'})
 	.pipe connect.reload()
 
 

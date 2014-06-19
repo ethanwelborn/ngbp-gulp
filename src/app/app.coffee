@@ -13,7 +13,7 @@ angular.module 'ngbp-gulp', [
 	.state 'home',
 		url : '/home'
 		templateUrl : 'app/home/index.html'
-		
+
 	.state 'workspace',
 		url : '/workspace'
 		templateUrl : 'app/workspace/index.html'
