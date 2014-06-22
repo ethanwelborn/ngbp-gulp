@@ -52,7 +52,7 @@ gulp.task 'move:coffee', ->
 gulp.task 'move:vendor', ->
 	gulp.src globs.vendor
 	.pipe plumber()
-	.pipe gulp.dest(build_dir)
+	.pipe gulp.dest(build_vendor_dir)
 
 
 gulp.task 'watch', ->
@@ -81,7 +81,7 @@ gulp.task 'watch', ->
 
 	watch {glob : globs.vendor}, (files) ->
 		return files.pipe plumber()
-			.pipe gulp.dest(build_dir)
+			.pipe gulp.dest(build_vendor_dir)
 			.pipe connect.reload()
 
 
