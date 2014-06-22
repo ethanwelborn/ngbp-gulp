@@ -1,4 +1,4 @@
 build/
 vendor/
 node_modules/
-sass-cache/
+.sass-cache/
