@@ -8,6 +8,8 @@ inject = require 'gulp-inject'
 clean = require 'gulp-clean'
 karma = require 'gulp-karma'
 changed = require 'gulp-changed'
+watch = require 'gulp-watch'
+plumber = require 'gulp-plumber'
 globs = require './globs'
 
 
@@ -25,63 +27,77 @@ gulp.task 'connect', ->
 	return
 
 
-gulp.task 'jade', ->
+gulp.task 'move:jade', ->
 	gulp.src globs.jade
-	.pipe changed(build_dir, { extension : '.html'})
 	.pipe jade({ pretty : true })
-	.on('error', gutil.log)
+	.pipe plumber()
 	.pipe inject(gulp.src(globs.app, { read : false }), { ignorePath : ['build'], addRootSlash : false })
-	.on('error', gutil.log)
 	.pipe gulp.dest(build_dir)
-	.pipe connect.reload()
 
 
-gulp.task 'sass', ->
+gulp.task 'move:sass', ->
 	gulp.src globs.sass
-	.pipe changed(build_dir, { extension : '.css'})
+	.pipe plumber()
 	.pipe sass({ errLogToConsole : true, sourceComments : 'map', sourceMap : 'sass'})
-	.on('error', gutil.log)
 	.pipe gulp.dest(build_dir)
-	.pipe connect.reload()
 
 
-gulp.task 'coffee', ->
+gulp.task 'move:coffee', ->
 	gulp.src globs.coffee
-	.pipe changed(build_dir, { extension : '.js'})
+	.pipe plumber()
 	.pipe coffee({ bare : true })
-	.on('error', gutil.log)
 	.pipe gulp.dest(build_dir)
-	.pipe connect.reload()
 
 
-gulp.task 'vendor', ->
+gulp.task 'move:vendor', ->
 	gulp.src globs.vendor
-	.pipe gulp.dest(build_vendor_dir)
-	.pipe connect.reload()
-
-
-gulp.task 'karma', ->
-	gulp.src globs.karma
-	.pipe karma
-		configFile : 'karma.conf.js'
-		action : 'watch'
-	.on 'error', (err) ->
-		throw err
-		return
+	.pipe plumber()
+	.pipe gulp.dest(build_dir)
 
 
 gulp.task 'watch', ->
-	gulp.watch [globs.jade], ['jade']
-	gulp.watch [globs.sass], ['sass']
-	gulp.watch [globs.coffee], ['coffee']
-	gulp.watch [globs.vendor], ['vendor']
-	gulp.watch [globs.karma], ['karma']
-	return
+
+	watch {glob : globs.jade}, (files) ->
+		return files.pipe plumber()
+			.pipe jade({pretty : true })
+			.pipe inject(gulp.src(globs.app, { read : false }), { ignorePath : ['build'], addRootSlash : false })
+			.pipe gulp.dest(build_dir)
+			.pipe connect.reload()
 
 
-gulp.task 'build', ['vendor', 'sass', 'coffee'], ->
-	gulp.start 'jade'
+	watch {glob : globs.sass}, (files) ->
+		return files.pipe plumber()
+			.pipe sass({ errLogToConsole : true, sourceComments : 'map', sourceMap : 'sass'})
+			.pipe gulp.dest(build_dir)
+			.pipe connect.reload()
 
 
-gulp.task 'default', ['build', 'connect', 'watch']
+	watch {glob : globs.coffee}, (files) ->
+		return files.pipe plumber()
+			.pipe coffee({ bare : true })
+			.pipe gulp.dest(build_dir)
+			.pipe connect.reload()
+
+
+	watch {glob : globs.vendor}, (files) ->
+		return files.pipe plumber()
+			.pipe gulp.dest(build_dir)
+			.pipe connect.reload()
+
+
+	watch {glob : globs.karma}, (files) ->
+		return files.pipe plumber()
+			.pipe karma
+				configFile : 'karma.conf.js'
+				action : 'watch'
+			.on 'error', (err) ->
+				throw err
+				return
+
+
+gulp.task 'move:files', ['move:vendor', 'move:sass', 'move:coffee'], ->
+	gulp.start 'move:jade'
+
+
+gulp.task 'default', ['move:files', 'connect', 'watch']
 
