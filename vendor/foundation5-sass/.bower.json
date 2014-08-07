@@ -1,0 +1,27 @@
+{
+  "name": "foundation5-sass",
+  "description": "Zurb's Foundation 5 SASS files",
+  "version": "0.0.1",
+  "keywords": [
+    "zurb",
+    "foundation",
+    "sass",
+    "scss"
+  ],
+  "ignore": [
+    ".gitignore",
+    "bower.json",
+    "README.md"
+  ],
+  "homepage": "https://github.com/clohr/Foundation5-SASS",
+  "_release": "0.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.0.1",
+    "commit": "e7c665692ad00c254832968bc9cb568f7f1df2f6"
+  },
+  "_source": "git://github.com/clohr/Foundation5-SASS.git",
+  "_target": "~0.0.1",
+  "_originalSource": "foundation5-sass",
+  "_direct": true
+}
