@@ -6,7 +6,7 @@ angular.module 'ngbp-gulp', [
 ]
 
 .config ($stateProvider, $urlRouterProvider) ->
-	$urlRouterProvider.otherwise '/'
+	$urlRouterProvider.otherwise '/home'
 
 	$stateProvider
 	.state 'home',
