@@ -6,16 +6,12 @@ angular.module 'ngbp-gulp', [
 ]
 
 .config ($stateProvider, $urlRouterProvider) ->
-	$urlRouterProvider.otherwise '/workspace'
+	$urlRouterProvider.otherwise '/'
 
 	$stateProvider
 	.state 'home',
 		url : '/home'
 		templateUrl : 'app/home/index.html'
-
-	.state 'workspace',
-		url : '/workspace'
-		templateUrl : 'app/workspace/index.html'
 	return
 
 .run ['$state', ($state) ->
