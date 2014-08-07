@@ -2,10 +2,10 @@ gulp = require 'gulp'
 gutil = require 'gulp-util'
 connect = require 'gulp-connect'
 jade = require 'gulp-jade'
-sass = require 'gulp-sass'
+less = require 'gulp-less'
+sourcemaps = require 'gulp-sourcemaps'
 coffee = require 'gulp-coffee'
 inject = require 'gulp-inject'
-clean = require 'gulp-clean'
 karma = require 'gulp-karma'
 changed = require 'gulp-changed'
 watch = require 'gulp-watch'
@@ -35,10 +35,12 @@ gulp.task 'move:jade', ->
 	.pipe gulp.dest(build_dir)
 
 
-gulp.task 'move:sass', ->
-	gulp.src globs.sass
+gulp.task 'move:less', ->
+	gulp.src globs.less
 	.pipe plumber()
-	.pipe sass({ errLogToConsole : true, sourceComments : 'map', sourceMap : 'sass'})
+	.pipe(sourcemaps.init())
+	.pipe(less())
+	.pipe(sourcemaps.write())
 	.pipe gulp.dest(build_dir)
 
 
@@ -65,9 +67,11 @@ gulp.task 'watch', ->
 			.pipe connect.reload()
 
 
-	watch {glob : globs.sass}, (files) ->
+	watch {glob : globs.less}, (files) ->
 		return files.pipe plumber()
-			.pipe sass({ errLogToConsole : true, sourceComments : 'map', sourceMap : 'sass'})
+			.pipe(sourcemaps.init())
+			.pipe(less())
+			.pipe(sourcemaps.write())
 			.pipe gulp.dest(build_dir)
 			.pipe connect.reload()
 
@@ -95,7 +99,7 @@ gulp.task 'watch', ->
 				return
 
 
-gulp.task 'move:files', ['move:vendor', 'move:sass', 'move:coffee'], ->
+gulp.task 'move:files', ['move:vendor', 'move:less', 'move:coffee'], ->
 	gulp.start 'move:jade'
 
 

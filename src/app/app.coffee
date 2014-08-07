@@ -3,7 +3,6 @@
 angular.module 'ngbp-gulp', [
 	'ui.router'
 	'ngbp-gulp.home'
-	'ngbp-gulp.workspace'
 ]
 
 .config ($stateProvider, $urlRouterProvider) ->
