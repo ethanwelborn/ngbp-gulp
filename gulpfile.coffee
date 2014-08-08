@@ -29,8 +29,8 @@ gulp.task 'connect', ->
 
 gulp.task 'move:jade', ->
 	gulp.src globs.jade
-	.pipe jade({ pretty : true })
 	.pipe plumber()
+	.pipe jade({ pretty : true })
 	.pipe inject(gulp.src(globs.app, { read : false }), { ignorePath : ['build'], addRootSlash : false })
 	.pipe gulp.dest(build_dir)
 
@@ -57,47 +57,27 @@ gulp.task 'move:vendor', ->
 	.pipe gulp.dest(build_vendor_dir)
 
 
+gulp.task 'run:karma', ->
+	gulp.src globs.karma
+	.pipe karma
+		configFile : 'karma.conf.js'
+		action : 'watch'
+	.on 'error', (err) ->
+		throw err
+		return
+
+
 gulp.task 'watch', ->
+	gulp.watch globs.jade, ['move:jade']
 
-	watch {glob : globs.jade}, (files) ->
-		return files.pipe plumber()
-			.pipe jade({pretty : true })
-			.pipe inject(gulp.src(globs.app, { read : false }), { ignorePath : ['build'], addRootSlash : false })
-			.pipe gulp.dest(build_dir)
-			.pipe connect.reload()
+	gulp.watch globs.less, ['move:less']
 
+	gulp.watch globs.coffee, ['move:coffee']
 
-	watch {glob : globs.less}, (files) ->
-		return files.pipe plumber()
-			.pipe(sourcemaps.init())
-			.pipe(less())
-			.pipe(sourcemaps.write())
-			.pipe gulp.dest(build_dir)
-			.pipe connect.reload()
+	gulp.watch globs.vendor, ['move:vendor']
 
-
-	watch {glob : globs.coffee}, (files) ->
-		return files.pipe plumber()
-			.pipe coffee({ bare : true })
-			.pipe gulp.dest(build_dir)
-			.pipe connect.reload()
-
-
-	watch {glob : globs.vendor}, (files) ->
-		return files.pipe plumber()
-			.pipe gulp.dest(build_vendor_dir)
-			.pipe connect.reload()
-
-
-	watch {glob : globs.karma}, (files) ->
-		return files.pipe plumber()
-			.pipe karma
-				configFile : 'karma.conf.js'
-				action : 'watch'
-			.on 'error', (err) ->
-				throw err
-				return
-
+	gulp.watch globs.karma, ['run:karma']
+	
 
 gulp.task 'move:files', ['move:vendor', 'move:less', 'move:coffee'], ->
 	gulp.start 'move:jade'
